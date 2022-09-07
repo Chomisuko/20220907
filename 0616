@@ -1,0 +1,87 @@
+#include <stdio.h>
+
+
+/* 调用幂函数 */
+//int power(int m, int n);  //声明函数原型，表明power函数有两个int类型的参数，返回一个int类型的值，必须与power函数的定义和用法一致，参数名可忽略
+//
+//int main()
+//{
+//    int i;
+//
+//    for (i = 0; i < 10; ++i)
+//        printf("%d %d %d\n", i, power(2,i), power(-3,i));  //调用两次power函数，每次调用时，main向power传递两个参数；调用执行完成时，power向main返回一个格式化的整数并打印（实际参数）
+//    return 0;  //返回给程序的执行环境，0为正常终止，非0表示出现异常情况或出错结束条件
+//}
+
+/* power函数定义: 求底数的n次幂； n >= 0； 第1版 */
+//int power(int base, int n)  //声明参数的类型、名字以及该函数返回结果的类型，参数使用的名字仅在power函数内部有效，不会与其它函数冲突（形式参数）
+//{
+//    int i, p;  //与main函数中的i无关
+//
+//    p = 1;
+//    for (i = 1; i <= n; ++i)
+//        p = p * base;
+//    return p;  //power函数计算所得结果通过return语句返回给main函数，不一定每个函数都有
+//}
+
+
+/* power函数定义: 求底数的n次幂； n >= 0； 第2版 */
+//int power(int base, int n)
+//{
+//    int p;
+//
+//    p = 1;
+//    for (p = 1; n > 0; --n)
+//        p = p * base;
+//    return p;  //power函数内部对n的任何不会影响到调用函数中n的原始参数值
+//}
+
+
+/* 读入一组文本行，打印最长的文本行 */
+#define MAXLINE 1000
+
+int getline(char line[], int maxline);
+void copy(char to[], char from[]);  //声明函数原型
+
+int main()
+{
+    int len;
+    int max;
+    char line[MAXLINE];
+    char longest[MAXLINE];
+
+    max = 0;
+    while ((len = getline(line, MAXLINE)) > 0)
+        if (len > max)
+        {
+            max = len;
+            copy(longest, line);
+        }
+    if (max > 0)
+        printf("%s", longest);  //%s对应字符串
+    return 0;
+}
+
+int getline(char s[], int lim)  //没有必要指明数组s的长度，数组大小在main中设置
+{
+    int c, i;
+
+    for (i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; ++i)
+        s[i] = c;
+    if (c == '\n')
+    {
+        s[i] = c;
+        ++i;
+    }
+    s[i] = '\0';  //把字符'\0'插入到它创建的数组的末尾，以标记字符串的结束
+    return i;
+}
+
+void copy(char to[], char from[])  //void说明函数不返回任何值，仅执行一些动作
+{
+    int i;
+
+    i = 0;
+    while ((to[i] = from[i]) != '\0')
+        ++i;
+}
